@@ -61,6 +61,8 @@ public class AuthorizeController {
             user.setName(githubUser.getName());
             String token = UUID.randomUUID().toString();
             user.setToken(token);
+            user.setBio(githubUser.getBio());
+            user.setAvatarUrl(githubUser.getAvatarUrl());
             System.out.println(user);
             userMapper.insert(user);
             //将用户信息存入session中
