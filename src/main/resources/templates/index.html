@@ -29,10 +29,13 @@
                 </a>
             </div>
             <div class="media-body">
-                <h4 class="media-heading" th:text="${question.title}"></h4>
+                <h4 class="media-heading" >
+                    <a th:href="@{'/question/' + ${question.id}}" th:text="${question.title}"></a>
+                </h4>
                 <!--apring学习可以通过视频进行学习了解..<br/>-->
                 <div class="row">
                     <div class="text-desc col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                        <span th:text="${question.description}"></span><br/>
                         <span th:text="${question.commentCount}"></span><span>&nbsp;个回复&nbsp;&nbsp; • &nbsp;</span>
                         <span th:text="${question.viewCount}"></span><span>&nbsp;次浏览&nbsp;&nbsp; • &nbsp;</span>
                         <span th:text="${#dates.format(question.gmtCreate,'yyyy.MM.dd HH:mm')}"></div>

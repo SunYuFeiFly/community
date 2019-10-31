@@ -1,10 +1,8 @@
 package life.majiang.community.community.mapper;
 
+import life.majiang.community.community.model.Question;
 import life.majiang.community.community.model.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface UserMapper {
@@ -17,4 +15,13 @@ public interface UserMapper {
 
     @Select("select * from user where id = #{id}")
     public User getUserById(@Param("id") Long id);
+
+    //根据accountId 查询用户
+    @Select("select * from user where accountId = #{accountId}")
+    public User getUserByAccountId(String accountId);
+
+    //更新user
+    @Update("update user set name = #{name}, token = #{token},gmtModified = #{gmtModified}, avatarUrl = #{avatarUrl} where id = #{id}")
+    void update(User dbUser);
+
 }

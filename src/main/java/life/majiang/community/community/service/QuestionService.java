@@ -89,13 +89,31 @@ public class QuestionService {
         return paginationDTO;
     }
 
-    //通过id或去封装了question与user的questionDTO对象
-    public QuestionDTO getQuestionById(Integer id) {
+    //通过id查询封装了question与user的questionDTO对象
+    public QuestionDTO getQuestionDTOById(Integer id) {
         QuestionDTO questionDTO = new QuestionDTO();
         Question question = questionMapper.getQuestionById(id);
         User user = userMapper.getUserById(question.getCreator());
         BeanUtils.copyProperties(question,questionDTO);
         questionDTO.setUser(user);
         return questionDTO;
+    }
+
+    //根据id 查询查询question，进而添加或更新操作
+    public void createOrUpdate(Question question) {
+        //添加
+        if(question.getId() == null){
+            question.setGmtCreate(System.currentTimeMillis());
+            question.setGmtModified(question.getGmtCreate());
+            question.setViewCount(0);
+            question.setLikeCount(0);
+            question.setCommentCount(0);
+            questionMapper.create(question);
+        }else{
+            //更新
+            question.setGmtModified(System.currentTimeMillis());
+            questionMapper.update(question);
+        }
+
     }
 }

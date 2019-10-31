@@ -1,16 +1,15 @@
 package life.majiang.community.community.controller;
 
+import life.majiang.community.community.dto.QuestionDTO;
 import life.majiang.community.community.mapper.QuestionMapper;
 import life.majiang.community.community.mapper.UserMapper;
 import life.majiang.community.community.model.Question;
 import life.majiang.community.community.model.User;
+import life.majiang.community.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +18,19 @@ import javax.servlet.http.HttpServletRequest;
 public class PublicController {
 
     @Autowired
-    private QuestionMapper questionMapper;
+    private QuestionService questionService;
+
+    //根据id查询question数据进行页面回显
+    @RequestMapping("public/{id}")
+    public String edit(@PathVariable(name = "id") Integer id,
+                         Model model){
+        QuestionDTO questionDTO = questionService.getQuestionDTOById(id);
+        model.addAttribute("title", questionDTO.getTitle());
+        model.addAttribute("description", questionDTO.getDescription());
+        model.addAttribute("tag", questionDTO.getTag());
+        model.addAttribute("id", questionDTO.getId());
+        return "publish";
+    }
 
     @GetMapping("/publish")
     public String toPublish(){
@@ -30,6 +41,7 @@ public class PublicController {
     public String doPublish(@RequestParam(value = "title", required = false) String title,
                             @RequestParam(value = "description", required = false) String description,
                             @RequestParam(value = "tag", required = false) String tag,
+                            @RequestParam(value = "id", required = false) Long id,
                             HttpServletRequest request,
                             Model model){
 
@@ -64,13 +76,11 @@ public class PublicController {
         question.setDescription(description);
         question.setTag(tag);
         question.setCreator(user.getId());
-        question.setGmtCreate(System.currentTimeMillis());
-        question.setGmtModified(null);
-        question.setCommentCount(0);
-        question.setLikeCount(0);
-        question.setViewCount(0);
+        question.setId(id);
 
-        questionMapper.create(question);
+        //此处采用查询后添加或更新操作
+//        questionMapper.create(question);
+        questionService.createOrUpdate(question);
 
         return "redirect:/";
     }
