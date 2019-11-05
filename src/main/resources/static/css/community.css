@@ -60,7 +60,7 @@ body {
 }
 
 .question-tag {
-    margin-right: 5px;
+    margin-right: 3px;
 }
 
 .question-related {
@@ -81,16 +81,20 @@ body {
     padding-top: 10px;
 }
 
+.label-info {
+    background-color: #FFFFFF;
+}
+
 .publish-tag-tab .label-info {
     white-space: normal;
-    margin: 5px 5px;
+    /*margin: 5px 5px;*/
     display: inline-block;
 }
 
 .community-menu {
     color: #999;
     font-size: 13px;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 
 .jumbotron {
@@ -98,7 +102,7 @@ body {
 }
 
 .comment {
-    margin: 10px 0;
+    margin: 6px 0;
 }
 
 .btn-comment {
@@ -107,9 +111,18 @@ body {
 }
 
 .comments {
+    padding: 4px;
     padding-bottom: 5px;
     margin-bottom: 15px;
     border-bottom: 1px solid #eee;
+}
+
+#comment_section{
+    padding: 10px;
+}
+
+.commentAll{
+    border: 1px solid #eee;
 }
 
 .sub-comments {
@@ -125,7 +138,7 @@ body {
 }
 
 .comment-sp {
-    margin-top: 0;
+    margin-top: 3px;
 }
 
 .menu {
@@ -137,6 +150,12 @@ body {
     margin-right: 6px;
     font-size: 15px;
     cursor: pointer;
+}
+
+.menu .icon2 {
+    margin-right: 10px;
+    font-size: 15px;
+
 }
 
 .menu .comment-icon {
@@ -168,6 +187,63 @@ body {
 }
 
 .media-object{
-    height: 45px;
-    weight: 49px
+    height: 38px;
+    weight: 38px
+}
+
+
+/*hr {*/
+    /*margin-top: 10px;*/
+    /*margin-bottom: 10px;*/
+    /*border: 0;*/
+    /*border-top: 1px solid #eee;*/
+/*}*/
+
+.hr1 {
+    margin-top: 12px;
+    margin-bottom: 7px;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+
+.hr3 {
+    margin-top: 7px;
+    margin-bottom: 15px;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+
+.hr4 {
+    margin-top: 5px;
+    margin-bottom: 25px;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+
+.hr5 {
+    margin-top: 2px;
+    margin-bottom: 25px;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+
+.hr6 {
+    margin-top: 8px;
+    margin-bottom: 15px;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+
+.hr7 {
+    margin-top: 3px;
+    margin-bottom: 10px;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+
+.hr8 {
+    margin-top: 2px;
+    margin-bottom: 18px;
+    border: 0;
+    border-top: 1px solid #eee;
 }

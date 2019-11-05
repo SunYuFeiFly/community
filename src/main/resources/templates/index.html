@@ -8,7 +8,15 @@
     <link rel="stylesheet" href="/css/community.css">
     <script src="/js/jquery-3.4.1.min.js"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
-
+    <script type="application/javascript">
+        window.onload = function () {
+            var closable = window.localStorage.getItem("closable");
+            if (closable == "true") {
+                window.close();
+                window.localStorage.removeItem("closable");
+            }
+        }
+    </script>
 </head>
 <body>
 
@@ -38,9 +46,9 @@
                         <span th:text="${question.description}"></span><br/>
                         <span th:text="${question.commentCount}"></span><span>&nbsp;个回复&nbsp;&nbsp; • &nbsp;</span>
                         <span th:text="${question.viewCount}"></span><span>&nbsp;次浏览&nbsp;&nbsp; • &nbsp;</span>
-                        <span th:text="${#dates.format(question.gmtCreate,'yyyy.MM.dd HH:mm')}"></div>
-                    </span>
-                    <a href="" class="col-xs-2 col-sm-2 col-md-2 col-lg-2"> 回复 </a>
+                        <span th:text="${#dates.format(question.gmtCreate,'yyyy.MM.dd HH:mm')}"></span>
+                    </div>
+                    <a th:href="@{'/question/' + ${question.id}}" class="col-xs-2 col-sm-2 col-md-2 col-lg-2"> 回复 </a>
                 </div>
 
             </div>
@@ -55,7 +63,8 @@
                         <span class="glyphicon glyphicon-fast-backward" aria-hidden="true"></span>
                     </a>
                 </li>
-                <li th:if="${pagination.page >1}">
+                <!--<li th:if="${pagination.page >1}">-->
+                <li th:if="${pagination.showPrevious}">
                     <a href="#" aria-label="Next" th:href="@{/(page=${pagination.page} -1)}">
                         <!-- 上一页 -->
                         <span class="glyphicon glyphicon-chevron-left"aria-hidden="true"></span>
@@ -63,7 +72,7 @@
                 </li>
 
                 <li th:each="page : ${pagination.pages}" th:class="${pagination.page == page}? 'active' : ''">
-                    <a th:href="@{/(page=${page})}" th:text="${page}">1</a>
+                    <a th:href="@{/(page=${page})}" th:text="${page +1}">1</a>
                 </li>
                 <!--<li><a href="#">1</a></li>-->
 

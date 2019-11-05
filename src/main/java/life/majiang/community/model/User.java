@@ -1,5 +1,8 @@
 package life.majiang.community.model;
 
+import lombok.Data;
+
+@Data
 public class User {
 
     private Long id;

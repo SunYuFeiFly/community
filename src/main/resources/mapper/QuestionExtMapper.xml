@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="life.majiang.community.mapper.QuestionExtMapper">
+  <resultMap id="BaseResultMap" type="life.majiang.community.model.Question">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="TITLE" jdbcType="VARCHAR" property="title" />
+    <result column="GMT_CREATE" jdbcType="BIGINT" property="gmtCreate" />
+    <result column="GMT_MODIFIED" jdbcType="BIGINT" property="gmtModified" />
+    <result column="CREATOR" jdbcType="BIGINT" property="creator" />
+    <result column="COMMENT_COUNT" jdbcType="INTEGER" property="commentCount" />
+    <result column="VIEW_COUNT" jdbcType="INTEGER" property="viewCount" />
+    <result column="LIKE_COUNT" jdbcType="INTEGER" property="likeCount" />
+    <result column="TAG" jdbcType="VARCHAR" property="tag" />
+  </resultMap>
+
+  <!-- 阅览数更新 -->
+  <update id="incView" parameterType="life.majiang.community.model.Question">
+    update QUESTION
+    set
+    VIEW_COUNT = VIEW_COUNT + #{viewCount,jdbcType=INTEGER}
+    where id = #{id}
+    </update>
+
+  <!-- 回复加更新 -->
+  <update id="incCommentCount" parameterType="life.majiang.community.model.Question">
+    update QUESTION
+    set
+    COMMENT_COUNT = COMMENT_COUNT + #{commentCount,jdbcType=INTEGER}
+    where id = #{id}
+  </update>
+
+  <!-- 获取当前主题标签相关话题 -->
+  <select id="selectRelated" parameterType="life.majiang.community.model.Question" resultMap="BaseResultMap">
+    select * from QUESTION
+    where id != #{id} and tag regexp #{tag}
+  </select>
+
+</mapper>

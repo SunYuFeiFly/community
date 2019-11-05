@@ -27,6 +27,7 @@ public class IndexController {
         //通过拦截器获取session中token，从而获取user存于session中
 
         User user = (User)request.getSession().getAttribute("user");
+
         //获取主页问题合集
 //        List<QuestionDTO> QuestionDTOList = questionService.list(page,size);
         PaginationDTO paginationDTO = questionService.list(page, size);

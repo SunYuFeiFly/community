@@ -1,9 +1,12 @@
 package life.majiang.community.exception;
 
-//处理已知异常
 public class CustomizeException extends RuntimeException {
-
+    private Integer code;
     private String message;
+
+    public Integer getCode() {
+        return code;
+    }
 
     @Override
     public String getMessage() {
@@ -11,6 +14,7 @@ public class CustomizeException extends RuntimeException {
     }
 
     public CustomizeException(ICustomizeErrorCode errorCode) {
+        this.code = errorCode.getCode();
         this.message = errorCode.getMessage();
     }
 }
