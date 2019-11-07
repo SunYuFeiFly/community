@@ -36,6 +36,7 @@ public class PublicController {
         model.addAttribute("description", questionDTO.getDescription());
         model.addAttribute("tag", questionDTO.getTag());
         model.addAttribute("id", questionDTO.getId());
+
         //获取静态标签，放入model中
         model.addAttribute("tags", TagCache.get());
         return "publish";

@@ -46,7 +46,11 @@
                         <span th:text="${question.description}"></span><br/>
                         <span th:text="${question.commentCount}"></span><span>&nbsp;个回复&nbsp;&nbsp; • &nbsp;</span>
                         <span th:text="${question.viewCount}"></span><span>&nbsp;次浏览&nbsp;&nbsp; • &nbsp;</span>
-                        <span th:text="${#dates.format(question.gmtCreate,'yyyy.MM.dd HH:mm')}"></span>
+                        <span th:text="${#dates.format(question.gmtCreate,'yyyy.MM.dd HH:mm')}"></span><span>&nbsp&nbsp;&nbsp;</span>
+                        <!-- 编辑 -->
+                        <a th:href="@{'/public/'+ ${question.id}}" class="community-menu01 div2" th:if="${session.user != null && session.user.id == question.creator}">
+                            <span class="glyphicon glyphicon-pencil" aria-hidden="true">编辑</span>
+                        </a>
                     </div>
                     <a th:href="@{'/question/' + ${question.id}}" class="col-xs-2 col-sm-2 col-md-2 col-lg-2"> 回复 </a>
                 </div>
@@ -72,7 +76,7 @@
                 </li>
 
                 <li th:each="page : ${pagination.pages}" th:class="${pagination.page == page}? 'active' : ''">
-                    <a th:href="@{/(page=${page})}" th:text="${page +1}">1</a>
+                    <a th:href="@{/(page=${page})}" th:text="${page}">1</a>
                 </li>
                 <!--<li><a href="#">1</a></li>-->
 

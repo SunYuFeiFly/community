@@ -1,9 +1,11 @@
 package life.majiang.community.controller;
 
+import life.majiang.community.dto.NotificationDTO;
 import life.majiang.community.dto.PaginationDTO;
 import life.majiang.community.mapper.QuestionMapper;
 import life.majiang.community.mapper.UserMapper;
 import life.majiang.community.model.User;
+import life.majiang.community.service.NotificationService;
 import life.majiang.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,9 @@ public class ProfileController {
 
     @Autowired
     private QuestionService questionService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @RequestMapping("/profile/{action}")
     public String profile(@PathVariable("action") String action,
@@ -40,20 +45,24 @@ public class ProfileController {
         if("questions".equals(action)){
             model.addAttribute("section","questions");
             model.addAttribute("sectionName","我的提问");
+
+            //查询专属的question合集
+            PaginationDTO paginationDTO = questionService.listByUserId(user.getId(), page, size);
+            model.addAttribute("pagination",paginationDTO);
         }else if ("replies".equals(action)){
             model.addAttribute("section","replies");
             model.addAttribute("sectionName","最新回复");
+
+            //获取通知数量
+//            Long unreadCount = notificationService.unreadCount(user.getId());
+//            model.addAttribute("unreadCount",unreadCount);
+
+            //查询专属通知
+            PaginationDTO paginationDTO = notificationService.listByUserId(user.getId(), page, size);
+            model.addAttribute("pagination",paginationDTO);
         }
 
-        //查询专属的question合集
-        PaginationDTO paginationDTO = questionService.listByUserId(user.getId(), page, size);
-        System.out.println(paginationDTO);
-        model.addAttribute("pagination",paginationDTO);
         return "profile";
-
-
-
-
     }
 
 

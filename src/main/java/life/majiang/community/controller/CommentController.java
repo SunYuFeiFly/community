@@ -57,7 +57,7 @@ public class CommentController {
         comment.setGmtModified(System.currentTimeMillis());
         comment.setLikeCount(0L);
         System.out.println(comment);
-        commentService.insert(comment);
+        commentService.insert(comment, user);
         return ResultDTO.okOf();
     }
 
@@ -69,21 +69,7 @@ public class CommentController {
         return ResultDTO.okOf(commentDTOS);
     }
 
-
     //添加点赞数
-//    @ResponseBody
-//    @RequestMapping(value = "/comment/likeCount",method = RequestMethod.POST)
-//    public Object incLikeComment(@RequestBody CommentCreateDTO commentCreateDTO){
-//        long id = commentCreateDTO.getParentId();
-//        System.out.println(id);
-//        int updateCount = commentService.incLikeCount(id);
-//        if(updateCount == 0){
-//            return ResultDTO.falseOf();
-//        }
-//        return ResultDTO.okOf();
-//    }
-
-
     @ResponseBody
     @RequestMapping(value = "/comment/likeCount",method = RequestMethod.POST)
     public Object incLikeComment(@RequestParam(value = "commentId", defaultValue = "") long commentId){

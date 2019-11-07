@@ -48,6 +48,22 @@ public class PaginationDTO<T> {
             showEndPage = true;
         }
 
+        //是否有下一页 是否有最后一页 page = totalPage 时
+        if(totalPage == 1){
+            showNext = false;
+            showEndPage = false;
+        }else{
+            if(page != totalPage){
+                showNext = true;
+                showEndPage = true;
+            }else{
+                showNext = false;
+                showEndPage = false;
+            }
+        }
+
+
+
 //        //是否有第一页
 //        if(page > extraPage){
 //            showFirstPage = true;
@@ -66,7 +82,7 @@ public class PaginationDTO<T> {
         //totalPage 总页数
         //extraPage 中间数
         if(totalPage <= 5){
-            for (int i = 0; i < totalPage; i++) {
+            for (int i = 1; i < totalPage +1; i++) {
                  pages.add(i);
             }
         }
