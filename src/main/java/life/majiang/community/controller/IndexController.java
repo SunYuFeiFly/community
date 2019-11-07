@@ -32,11 +32,6 @@ public class IndexController {
 
         User user = (User)request.getSession().getAttribute("user");
 
-        //如果session 用户查询为空，跳转至首页进行登录
-        if(user == null){
-            return "redirect:/";
-        }
-
         //获取通知数目（但此次利用拦截器获取保存至session，但是否查询太过频繁！）
 //        Long unreadCount = notificationService.unreadCount(user.getId());
 //        model.addAttribute("unreadCount",unreadCount);
