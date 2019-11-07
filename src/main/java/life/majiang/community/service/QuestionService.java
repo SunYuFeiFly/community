@@ -2,6 +2,7 @@ package life.majiang.community.service;
 
 import life.majiang.community.dto.PaginationDTO;
 import life.majiang.community.dto.QuestionDTO;
+import life.majiang.community.dto.QuestionQueryDTO;
 import life.majiang.community.exception.CustomizeErrorCode;
 import life.majiang.community.exception.CustomizeException;
 import life.majiang.community.mapper.QuestionExtMapper;
@@ -35,8 +36,13 @@ public class QuestionService {
     private UserMapper userMapper;
 
     //查询网站显示页所有question合集
-    public PaginationDTO list(Integer page, Integer size) {
-        Integer offset = (page - 1) * size;
+    public PaginationDTO list(String search,Integer page, Integer size) {
+        //用于处理搜索条件
+        if (StringUtils.isNotBlank(search)){
+            String[] tags = StringUtils.split(search, " ");
+            //使搜索条件符合正则表达
+            search = Arrays.stream(tags).collect(Collectors.joining("|"));
+        }
 
         //封装了Question与User关系集合
         List<QuestionDTO> questionDTOList = new ArrayList<>();
@@ -44,22 +50,27 @@ public class QuestionService {
         //封装了QuestionDTO的分页查询
         PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO<>();
 
-//        List<Question> questions = questionMapper.listByPageAndSize(offset,size);
-        QuestionExample questionExample = new QuestionExample();
-        questionExample.setOrderByClause("gmt_modified DESC");
-        List<Question> questions = questionMapper.selectByExampleWithBLOBsWithRowbounds(questionExample, new RowBounds(offset, size));
+        //封装带条件查询条件(此时questionQueryDTO 中查询条件只包括 search)
+        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
+        questionQueryDTO.setSearch(search);
+
+        //带条件查询结果目录数
+        Integer totalCount = questionExtMapper.countBySearch(questionQueryDTO);
+        System.out.println(totalCount);
+
+        ////带条件查询结果（此时查询条件添加size与page）
+        Integer offset = (page - 1) * size;
+        questionQueryDTO.setSize(size);
+        questionQueryDTO.setPage(offset);
+        List<Question> questions = questionExtMapper.selectBySearch(questionQueryDTO);
+
         for (Question question : questions) {
-            System.out.println(question);
             User user = userMapper.selectByPrimaryKey(question.getCreator());
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(question, questionDTO);
             questionDTO.setUser(user);
             questionDTOList.add(questionDTO);
         }
-
-        //获取question数据总页数
-//        Integer totalCount = questionMapper.count();
-        Integer totalCount = (int) questionMapper.countByExample(new QuestionExample());
 
         //利用总页数，当前页，每页条数计算对paginationDTO进行赋值
         Integer extraPage = 2;
@@ -172,7 +183,6 @@ public class QuestionService {
         questionExample.createCriteria().andIdEqualTo(parentId);
         questionMapper.updateByExampleSelective(question,questionExample);
     }
-
 
     //获取当前主题标签相关话题
     public List<QuestionDTO> selectRelated(QuestionDTO queryDTO) {

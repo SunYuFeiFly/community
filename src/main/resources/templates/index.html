@@ -62,32 +62,32 @@
         <div aria-label="Page navigation">
             <ul class="pagination">
                 <li th:if="${pagination.showFirstPage}">
-                    <a href="#" aria-label="Next" th:href="@{/(page=1)}" >
+                    <a href="#" aria-label="Next" th:href="@{/(page=1,search=${search})}" >
                         <!-- 首页 -->
                         <span class="glyphicon glyphicon-fast-backward" aria-hidden="true"></span>
                     </a>
                 </li>
                 <!--<li th:if="${pagination.page >1}">-->
                 <li th:if="${pagination.showPrevious}">
-                    <a href="#" aria-label="Next" th:href="@{/(page=${pagination.page} -1)}">
+                    <a href="#" aria-label="Next" th:href="@{/(page=${pagination.page -1},search=${search})}">
                         <!-- 上一页 -->
                         <span class="glyphicon glyphicon-chevron-left"aria-hidden="true"></span>
                     </a>
                 </li>
 
                 <li th:each="page : ${pagination.pages}" th:class="${pagination.page == page}? 'active' : ''">
-                    <a th:href="@{/(page=${page})}" th:text="${page}">1</a>
+                    <a th:href="@{/(page=${page},search=${search})}" th:text="${page}">1</a>
                 </li>
                 <!--<li><a href="#">1</a></li>-->
 
                 <li th:if="${pagination.showNext}">
-                    <a href="#" aria-label="Next" th:href="@{/(page=${pagination.page} +1)}">
+                    <a href="#" aria-label="Next" th:href="@{/(page=${pagination.page +1},search=${search})}">
                         <!-- 下一页 -->
                         <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                     </a>
                 </li>
                 <li th:if="${pagination.page} < ${pagination.totalPage}">
-                    <a href="#" aria-label="Next" th:href="@{/(page=${pagination.totalPage})}">
+                    <a href="#" aria-label="Next" th:href="@{/(page=${pagination.totalPage},search=${search})}">
                         <!-- 末页 -->
                         <span class="glyphicon glyphicon-fast-forward" aria-hidden="true"></span>
                     </a>
@@ -103,6 +103,6 @@
     </div>
 </div>
 
-
+<div th:insert="~{footer :: foot}"></div>
 </body>
 </html>

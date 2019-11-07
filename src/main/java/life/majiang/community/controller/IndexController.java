@@ -27,20 +27,17 @@ public class IndexController {
     public String index(HttpServletRequest request,
                          @RequestParam(value="page",defaultValue = "1") Integer page,
                          @RequestParam(value="size",defaultValue = "5") Integer size,
+                         @RequestParam(value="search",required = false) String search,
                          Model model){
-        //通过拦截器获取session中token，从而获取user存于session中
-
-        User user = (User)request.getSession().getAttribute("user");
-
         //获取通知数目（但此次利用拦截器获取保存至session，但是否查询太过频繁！）
 //        Long unreadCount = notificationService.unreadCount(user.getId());
 //        model.addAttribute("unreadCount",unreadCount);
 
         //获取主页问题合集
-//        List<QuestionDTO> QuestionDTOList = questionService.list(page,size);
-        PaginationDTO paginationDTO = questionService.list(page, size);
-        System.out.println(paginationDTO);
+        PaginationDTO paginationDTO = questionService.list(search,page, size);
         model.addAttribute("pagination",paginationDTO);
+        //用于翻页操作时参数
+        model.addAttribute("search", search);
         return "index";
     }
 
